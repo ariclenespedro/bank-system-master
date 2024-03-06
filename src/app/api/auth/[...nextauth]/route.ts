@@ -1,0 +1,62 @@
+import NextAuth, { NextAuthOptions } from "next-auth"
+import CredentialsProvider from "next-auth/providers/credentials"
+
+const nextAuthOptions: NextAuthOptions = {
+    providers: [
+        CredentialsProvider({
+            name: 'credentials',
+			credentials: {
+				email: { label: 'email', type: 'text' },
+				password: { label: 'password', type: 'password' }
+			},
+
+            async authorize(credentials, req) {
+				try {
+                    const user = { id: "1", name: "J Smith", email: "jsmith@example.com" }
+
+                    if (credentials?.password  || credentials?.email) {
+                        // Any object returned will be saved in `user` property of the JWT
+                        return user
+                    } else {
+
+                        // If you return null then an error will be displayed advising the user to check their details.
+                        return null
+                    }
+				  /* const response = await fetch('http://10.17.21.28:3800/auth/login/', {
+					method: 'POST',
+					headers: {
+					  'Content-type': 'application/json'
+					},
+					body: JSON.stringify({
+                        email: credentials?.email,
+					  password: credentials?.password
+					})
+				  });
+			  
+				  if (!response.ok) {
+					throw new Error(`status: ${response.status}`);
+				  }
+			  
+				  const user = await response.json();
+			  
+				  if (user) {
+			  
+					return user;
+				  } else {
+					throw new Error('Usuário não encontrado na resposta da API');
+				  }*/
+				} catch (error) {
+				
+				  return null;
+				} 
+			},
+        })
+    ],
+    pages: {
+		signIn: '/'
+	},
+}
+
+const handler = NextAuth(nextAuthOptions)
+
+export {handler as GET, handler as POST, nextAuthOptions}

@@ -1,15 +1,57 @@
+'use client'
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import { Metadata } from "next";
 
-export const metadata: Metadata = {
-  title: "Login",
-  description: "login",
-};
+/* auth */
+import * as Yup from "yup";
+import { useFormik } from "formik";
+import { signIn } from "next-auth/react";
+import { useRouter } from 'next/navigation'
+
+
+
+const initialValues = {
+  email: '',
+  password: ''
+}
 
 const SignIn: React.FC = () => {
+
+  const router = useRouter();
+
+  // Configuração de validação com Yup
+  const LoginSchema = Yup.object().shape({
+    email: Yup.string().required("Email é obrigatório!"),
+    password: Yup.string().required("Palavra-passe é obrigatório!"),
+  })
+
+  const loginForm = useFormik({
+    initialValues: initialValues,
+    validationSchema: LoginSchema,
+    onSubmit: async (values) => {
+      console.log(values);
+      const result = await signIn("credentials", {
+        username: values.email,
+        password: values.password,
+        redirect: false,
+      });
+      // Se houver erro, exibe no console
+      if (result?.error) {
+        console.error("Erro ao autenticar:", result.error); 
+        return;
+      } else {
+        // Redireciona para a página de dashboard se a autenticação for bem-sucedida
+
+        router.replace("/dashboard");
+      }
+      
+      
+    }
+  })
+
   return (
     <div className="flex-1 justify-center items-center px-6 py-12 2xl:min-h-full lg:px-8 size-full ">
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
@@ -169,7 +211,7 @@ const SignIn: React.FC = () => {
                 ENTRAR
               </h2>
 
-              <form>
+              <form onSubmit={loginForm.handleSubmit}>
                 <div className="mb-4">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
                     Nº da Adesão
@@ -177,10 +219,18 @@ const SignIn: React.FC = () => {
                   <div className="relative">
                     <input
                       type="text"
-                      placeholder="Digite o nº da Adesão"
+                      name="email"
+                      id="email"
+                      placeholder="Email"
+                      onChange={loginForm.handleChange}
+                      value={loginForm.values.email}
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     />
-
+                    {loginForm.errors.email && loginForm.touched.email && (
+                    <span className="text-red-600 text-sm">
+                      {loginForm.errors.email}
+                    </span>
+                  )}
                     <span className="absolute right-4 top-4">
                       <svg
                         className="fill-current"
@@ -203,14 +253,23 @@ const SignIn: React.FC = () => {
 
                 <div className="mb-6">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
-                    Password
+                    Palavra-passe
                   </label>
                   <div className="relative">
                     <input
                       type="password"
-                      placeholder="6+ Characters, 1 Capital letter"
-                      className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-white outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                      name="password"
+                      id="password"
+                      placeholder="Digite a palavra-passe"
+                      onChange={loginForm.handleChange}
+                      value={loginForm.values.password}
+                      className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     />
+                    {loginForm.errors.password && loginForm.touched.password && (
+                    <span className="text-red-600 text-sm">
+                      {loginForm.errors.password}
+                    </span>
+                  )}
 
                     <span className="absolute right-4 top-4">
                       <svg
@@ -237,14 +296,13 @@ const SignIn: React.FC = () => {
                 </div>
 
                 <div className="mb-5">
-                  <Link href="/dashboard">
                   <button
                     type="submit"
                     className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
                   >
                     ENTRAR
                   </button>
-                  </Link>
+                 
                   
                 </div>
 
