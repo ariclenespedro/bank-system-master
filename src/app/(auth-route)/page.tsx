@@ -2,14 +2,13 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
-import { Metadata } from "next";
 
 /* auth */
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { signIn } from "next-auth/react";
 import { useRouter } from 'next/navigation'
+import { toast } from "react-toastify";
 
 
 
@@ -40,11 +39,12 @@ const SignIn: React.FC = () => {
       });
       // Se houver erro, exibe no console
       if (result?.error) {
+        toast.warning("Erro ao autenticar. Verifique suas credenciais.");
         console.error("Erro ao autenticar:", result.error); 
         return;
       } else {
         // Redireciona para a página de dashboard se a autenticação for bem-sucedida
-
+        toast.success("Login Efectuado com sucesso");
         router.replace("/dashboard");
       }
       
@@ -58,7 +58,7 @@ const SignIn: React.FC = () => {
         <div className="flex flex-wrap items-center">
           <div className="hidden w-full xl:block xl:w-1/2">
             <div className="px-26 py-17.5 text-center">
-              <Link className="mb-5.5 inline-block" href="/">
+              <Link className="mb-5.5 inline-block" href="/ ">
                 <Image
                   className="hidden dark:block"
                   src={"/images/logo/logo.svg"}
@@ -214,7 +214,7 @@ const SignIn: React.FC = () => {
               <form onSubmit={loginForm.handleSubmit}>
                 <div className="mb-4">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
-                    Nº da Adesão
+                    Email
                   </label>
                   <div className="relative">
                     <input
@@ -306,7 +306,7 @@ const SignIn: React.FC = () => {
                   
                 </div>
 
-                <button className="flex w-full items-center justify-center gap-3.5 rounded-lg border border-stroke bg-gray p-4 hover:bg-opacity-50 dark:border-strokedark dark:bg-meta-4 dark:hover:bg-opacity-50">
+                {/* <button className="flex w-full items-center justify-center gap-3.5 rounded-lg border border-stroke bg-gray p-4 hover:bg-opacity-50 dark:border-strokedark dark:bg-meta-4 dark:hover:bg-opacity-50">
                   <span>
                     <svg
                       width="20"
@@ -341,7 +341,7 @@ const SignIn: React.FC = () => {
                     </svg>
                   </span>
                   Entrar com o Google
-                </button>
+                </button> */}
 
                 {/* <div className="mt-6 text-center">
                   <p>

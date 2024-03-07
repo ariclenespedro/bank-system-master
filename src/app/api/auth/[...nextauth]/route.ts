@@ -12,15 +12,15 @@ const nextAuthOptions: NextAuthOptions = {
 
             async authorize(credentials, req) {
 				try {
-                    const user = { id: "1", name: "J Smith", email: "jsmith@example.com" }
+                    const user = { id: "1", name: "J Smith", email: "test@example.com", password: "test"}
 
-                    if (credentials?.password  || credentials?.email) {
+                    if (user) {
                         // Any object returned will be saved in `user` property of the JWT
                         return user
                     } else {
 
                         // If you return null then an error will be displayed advising the user to check their details.
-                        return null
+                        throw new Error('Usuário não encontrado na resposta da API');
                     }
 				  /* const response = await fetch('http://10.17.21.28:3800/auth/login/', {
 					method: 'POST',
@@ -55,6 +55,16 @@ const nextAuthOptions: NextAuthOptions = {
     pages: {
 		signIn: '/'
 	},
+    /* callbacks: {
+		async jwt({ token, user }) {
+			user && (token.user = user)
+			return token
+		},
+		async session({ session, token }){
+			session = token.user as any
+			return session
+		}
+	} */
 }
 
 const handler = NextAuth(nextAuthOptions)
