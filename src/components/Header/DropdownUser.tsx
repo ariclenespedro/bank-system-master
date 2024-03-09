@@ -1,8 +1,35 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { getSession, signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
-const DropdownUser = () => {
+const DropdownUser =  () => {
+
+  const [session, setSession] = useState<any | null>(null);
+
+  const router = useRouter();
+
+  async function logout() {
+    await signOut({
+      redirect: false,
+    });
+
+    router.replace("/");
+  }
+  
+  
+  useEffect(() => {
+    const fetchSession = async () => {
+      const session = await getSession();
+      setSession(session);
+    };
+
+    fetchSession();
+  }, []); // Executa apenas uma vez durante a montagem do componente
+  console.log(session);
+  
+
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const trigger = useRef<any>(null);
@@ -44,9 +71,9 @@ const DropdownUser = () => {
       >
         <span className="hidden text-right lg:block">
           <span className="block text-sm font-medium text-black dark:text-white">
-            Utilizador
+            {session?.user.name}
           </span>
-          <span className="block text-xs">Descricão</span>
+          <span className="block text-xs">{session?.user.description}</span>
         </span>
 
         <span className="h-12 w-12 rounded-full">
@@ -140,7 +167,8 @@ const DropdownUser = () => {
             </Link>
           </li>
         </ul>
-        <button className="flex items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
+        <button className="flex items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
+        onClick={logout}>
           <svg
             className="fill-current"
             width="22"

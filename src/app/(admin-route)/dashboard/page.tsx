@@ -4,15 +4,15 @@ import DefaultLayout from "@/components/Layouts/DefaultLayout";
 
 export const metadata: Metadata = {
   title:
-    "Bank Account",
+    "Principal | Bank Account",
   description: "Bank Account",
 };
 
-export default function Home() {
+export default async function Home() {
   return (
     <>
-      <DefaultLayout>
-        <ECommerce />
+      <DefaultLayout >       
+        <ECommerce  />
       </DefaultLayout>
     </>
   );
