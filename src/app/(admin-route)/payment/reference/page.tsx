@@ -1,5 +1,6 @@
-import LayoutDefault from "@/components/Layouts/DefaultLayout";
+import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
+import PaymentReferences from "@/components/CoreBusiness/PaymentReferences";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -9,18 +10,16 @@ export const metadata: Metadata = {
 };
 
 
- const PaymentReference = () => {
-
+export default function PaymentReference ()  {
     return (
-        <LayoutDefault>
-            <div className="mx-auto max-w-242.5">
-            <Breadcrumb pageName="Pagamento por referência" />
-            </div>
-        </LayoutDefault>
+        <>
+            <DefaultLayout>
+            <PaymentReferences/>
+            </DefaultLayout>
+        </>
+        
         
             
         
     )
 }
-
-export default PaymentReference;

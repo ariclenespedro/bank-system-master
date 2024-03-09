@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description: "Bank Account",
 };
 
-export default async function Home() {
+export default function Home() {
   return (
     <>
       <DefaultLayout >       

@@ -9,4 +9,3 @@ function loading() {
 }
 
 export default loading
-<p>Loading</p>
