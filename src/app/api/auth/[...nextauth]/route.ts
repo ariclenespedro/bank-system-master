@@ -1,13 +1,6 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  description: string;
-  password: string;
-}
 
 const nextAuthOptions: NextAuthOptions = {
   providers: [
@@ -19,17 +12,34 @@ const nextAuthOptions: NextAuthOptions = {
       },
 
       async authorize(credentials, req) {
+        console.log('dados do login', credentials)
         try {
-          const user: User = { id: "1", name: "J Smith", email: "test@example.com",description:"DevOps", password: "test" }
+          const response = await fetch('http://localhost:3000/auth/login/', {
+            method: 'POST',
+            headers:{
+              'Content-type': 'application/json'
+            },
+            body: JSON.stringify({
+              email: credentials?.email,
+              password: credentials?.password
+            })
+          });
+
+          if (!response.ok) {
+            console.log('msg:',response)
+            throw new Error(`status: ${response.status}`);
+          }
+
+          const user = await response.json();
 
           if (user) {
-            // Any object returned will be saved in `user` property of the JWT
             return user;
-          } else {
-            // If you return null then an error will be displayed advising the user to check their details.
+            } else {
             throw new Error('Usuário não encontrado na resposta da API');
-          }
+            }
+
         } catch (error) {
+           console.log('msg cath:',error)
           return null;
         }
       },
@@ -44,8 +54,7 @@ const nextAuthOptions: NextAuthOptions = {
       return token;
     },
     async session({ session, token }) {
-      const user: User = token.user as User;
-      session.user = user;
+      session = token.user as any;
       return session;
     }
   }
