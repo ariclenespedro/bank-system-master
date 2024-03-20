@@ -33,7 +33,7 @@ const SignIn: React.FC = () => {
     onSubmit: async (values) => {
       console.log(values);
       const result = await signIn("credentials", {
-        username: values.email,
+        email: values.email,
         password: values.password,
         redirect: false,
       });
@@ -218,7 +218,7 @@ const SignIn: React.FC = () => {
                   </label>
                   <div className="relative">
                     <input
-                      type="text"
+                      type="email"
                       name="email"
                       id="email"
                       placeholder="Email"

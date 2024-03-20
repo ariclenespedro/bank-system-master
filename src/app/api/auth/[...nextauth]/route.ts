@@ -12,21 +12,19 @@ const nextAuthOptions: NextAuthOptions = {
       },
 
       async authorize(credentials, req) {
-        console.log('dados do login', credentials)
         try {
-          const response = await fetch('http://localhost:3000/auth/login/', {
+          const adjustedCredentials = {
+            email: credentials?.email,
+            password: credentials?.password
+          };
+          const response = await fetch('http://192.168.1.76:3000/auth/login/', {
             method: 'POST',
             headers:{
               'Content-type': 'application/json'
             },
-            body: JSON.stringify({
-              email: credentials?.email,
-              password: credentials?.password
-            })
+            body: JSON.stringify(adjustedCredentials)
           });
-
           if (!response.ok) {
-            console.log('msg:',response)
             throw new Error(`status: ${response.status}`);
           }
 
