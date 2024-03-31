@@ -7,6 +7,7 @@ import React, { useEffect, useState } from "react";
 import Toastify from "@/components/Toast/Toastify"
 import Loader from "@/components/common/Loader";
 import NextAuthSessionProvider from "@/providers/SessionProvider";
+import { StoreWrapper } from "../redux/StoreWrapper";
 
 export default function RootLayout({
   children,
@@ -27,9 +28,11 @@ export default function RootLayout({
       <body suppressHydrationWarning={true}>
         <Toastify/>
         <NextAuthSessionProvider>
-          <div className="dark:bg-boxdark-2 dark:text-bodydark">
-            {loading ? <Loader /> : children}
-          </div>
+          <StoreWrapper> 
+            <div className="dark:bg-boxdark-2 dark:text-bodydark">
+              {loading ? <Loader /> : children}
+            </div>
+          </StoreWrapper>
         </NextAuthSessionProvider>
       </body>
     </html>
