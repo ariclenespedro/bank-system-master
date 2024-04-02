@@ -9,27 +9,19 @@ export const getAllDataAccount = createAsyncThunk(
         try {
             const session = await getSession();
             const token = session?.token;
-            const client_id = session?.client._id; 
+            const client_id = session?.client._id;
 
            // Configuração do cabeçalho com o token
-            const axiosInstance = axios.create({
-                baseURL: 'http://localhost:3000', // URL base da API
+            const config = {
+                baseURL: `http://192.168.1.76:3000`, // URL base da API
                 headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}` // Adiciona o token ao cabeçalho
                 }
-            });
+            };
 
-            axiosInstance.get('/api/client/660bccda660299cbb01214f8/account')
-            .then(response => {
-                // Manipular a resposta
-                console.log(response.data);
-                return response.data;
-            })
-            .catch(error => {
-                // Manipular erros
-                console.error('Erro ao fazer requisição:', error);
-            });
+            const res = await axios.get(`/api/client/${client_id}/account`,config);
+            return res.data;
 
         } catch (error) {
             console.log('response accountActions errors:',error);

@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {getAllDataAccount} from './accountActions';
 
+
 const initialState = {
     loading: true,
     account_data: null,
@@ -14,7 +15,7 @@ const accountSlice = createSlice({
   extraReducers: (builder) => {
     builder
       // Pending
-      .addCase(getAllDataAccount?.pending, (state) => {
+      .addCase(getAllDataAccount.pending, (state) => {
         console.log('Pending case...');
         return {
           ...state,
@@ -23,8 +24,8 @@ const accountSlice = createSlice({
       })
 
       //fulfilled
-      .addCase(getAllDataAccount?.fulfilled, (state, {payload}) =>{
-        console.log('payload:',payload);
+      .addCase(getAllDataAccount.fulfilled, (state, {payload}) =>{
+        console.log('payload:',state);
         return{
           ...state,
           loading:false,
@@ -33,7 +34,7 @@ const accountSlice = createSlice({
       })
 
       //reject
-      .addCase(getAllDataAccount?.rejected, (state, { payload }) => {
+      .addCase(getAllDataAccount.rejected, (state, { payload }) => {
         console.log('Rejected:', payload);
         return {
           ...state,

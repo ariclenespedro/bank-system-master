@@ -1,14 +1,55 @@
 "use client";
 import React from "react";
 import CardDataStats from "../CardDataStats";
+import { useEffect, useRef, useState } from "react";
+
+import { connect } from "react-redux";
+import { getAllDataAccount } from "@/redux/account/accountActions";
+import PropTypes from 'prop-types';
 
 
-const ECommerce: React.FC = () => {
+const ECommerce: React.FC = ({ 
+  getAllDataAccount, 
+  account: { account_data, error, loading }}: any) => {
+
+  console.log(account_data);
+  
+
+  const [DataAccount, setDataAccount] = useState<any | null>({
+    balance: loading === true ? "0" : account_data?.balance,
+    currency: loading === true ? "0" : account_data?.currency,
+  });
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const [account] = await Promise.all([
+          getAllDataAccount(),
+        ]);
+
+        setDataAccount({
+          balance: account.payload?.balance || "0",
+          currency: account.payload?.currency || "0",
+        });
+
+      } catch (error) {
+        console.log(error);
+      }
+     
+    }
+
+    // Chama fetchData inicialmente e limpa o intervalo quando o componente for desmontado
+    fetchData();
+  }, [getAllDataAccount]);
+
+  console.log('teste:',account_data);
+  
+
   return (
     <>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-1 md:gap-6 xl:grid-cols-1 2xl:gap-7.5">
         
-        <CardDataStats title="Saldo Total" total="Kz 45.563,35" rate="4.35%" levelUp>
+        <CardDataStats title="Saldo Total" total={`${DataAccount?.currency} ${DataAccount?.balance}`} rate="4.35%" levelUp>
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
   <path strokeLinecap="round" strokeLinejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0 0 12 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75Z" />
 </svg>
@@ -38,4 +79,17 @@ const ECommerce: React.FC = () => {
   );
 };
 
-export default ECommerce;
+
+ECommerce.propTypes = {
+  getAllDataAccount: PropTypes.func.isRequired,
+  account: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state: any) => ({
+  account: state.account,
+});
+
+export default connect(mapStateToProps, {
+  getAllDataAccount,
+})(ECommerce);
+
