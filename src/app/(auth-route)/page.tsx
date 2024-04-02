@@ -11,13 +11,18 @@ import { useRouter } from 'next/navigation'
 import { toast } from "react-toastify";
 
 
+import { connect } from "react-redux";
+import { getAllDataAccount } from "@/redux/account/accountActions";
+import PropTypes from 'prop-types';
+
+
 
 const initialValues = {
   email: '',
   password: ''
 }
 
-const SignIn: React.FC = () => {
+const SignIn: React.FC = ({ getAllDataAccount}: any) => {
 
   const router = useRouter();
 
@@ -48,6 +53,8 @@ const SignIn: React.FC = () => {
         router.replace("/dashboard");
       }
       
+      await getAllDataAccount().then((data: Object) => console.log( 'data:', data)
+      )
       
     }
   })
@@ -360,4 +367,15 @@ const SignIn: React.FC = () => {
   );
 };
 
-export default SignIn;
+SignIn.propTypes = {
+  getAllDataAccount: PropTypes.func.isRequired,
+  account: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state: any) => ({
+  account: state.account,
+});
+
+export default connect(mapStateToProps, {
+  getAllDataAccount,
+})(SignIn);

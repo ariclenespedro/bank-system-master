@@ -3,10 +3,12 @@ import Link from "next/link";
 import Image from "next/image";
 import { getSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import axios  from "axios";
 
 const DropdownUser =  () => {
 
   const [session, setSession] = useState<any | null>(null);
+  const [account, setAccount] = useState<Object | null>(null);
 
   const router = useRouter();
 
@@ -24,11 +26,37 @@ const DropdownUser =  () => {
       const session = await getSession();
       setSession(session);
     };
+    const getDataAccount = () =>{
+      const token = session?.token;
+    // Configuração do cabeçalho com o token
+    const axiosInstance = axios.create({
+        baseURL: 'http://localhost:3000', // URL base da API
+        headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}` // Adiciona o token ao cabeçalho
+        }
+    });
 
+    axiosInstance.get('/api/client/660bccda660299cbb01214f8/account')
+    .then(response => {
+        // Manipular a resposta
+        console.log(response.data);
+        setAccount(response.data);
+        return response.data;
+    })
+    .catch(error => {
+        // Manipular erros
+        console.error('Erro ao fazer requisição:', error);
+    });
+  }
+
+    
+    
     fetchSession();
+    getDataAccount()
   }, []); // Executa apenas uma vez durante a montagem do componente
   console.log(session);
-  
+  console.log(account);
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
 

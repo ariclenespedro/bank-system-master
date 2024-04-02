@@ -1,26 +1,38 @@
-/* import axios from "axios"; */
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { getSession } from "next-auth/react";
+import axios  from "axios";
 
 export const getAllDataAccount = createAsyncThunk(
     "account/getAllDataAccount",
     async () => {
+        console.log('iniciando a request');
         try {
             const session = await getSession();
-            console.log(session);
-            const token = session?.data.token;
-            const client_id = session?.user.client_id; 
+            const token = session?.token;
+            const client_id = session?.client._id; 
 
-            const config = {
+           // Configuração do cabeçalho com o token
+            const axiosInstance = axios.create({
+                baseURL: 'http://localhost:3000', // URL base da API
                 headers: {
-                  "authorization": token,
-                },
-            };
-            const baseUrl= process.env.APPLICATION_URL;
-            const res = await axios.get(`${baseUrl}/api/client/${client_id}/account`,config);
-            return res.data;
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}` // Adiciona o token ao cabeçalho
+                }
+            });
+
+            axiosInstance.get('/api/client/660bccda660299cbb01214f8/account')
+            .then(response => {
+                // Manipular a resposta
+                console.log(response.data);
+                return response.data;
+            })
+            .catch(error => {
+                // Manipular erros
+                console.error('Erro ao fazer requisição:', error);
+            });
 
         } catch (error) {
+            console.log('response accountActions errors:',error);
             
         }
     }
