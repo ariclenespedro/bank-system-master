@@ -16,7 +16,8 @@ export const getAllDataAccount = createAsyncThunk(
                   "authorization": token,
                 },
             };
-            const res = await axios.get(`http://192.168.1.76:3000/api/client/${client_id}/account`,config);
+            const baseUrl= process.env.APPLICATION_URL;
+            const res = await axios.get(`${baseUrl}/api/client/${client_id}/account`,config);
             return res.data;
 
         } catch (error) {

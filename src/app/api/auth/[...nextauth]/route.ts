@@ -17,7 +17,8 @@ const nextAuthOptions: NextAuthOptions = {
             email: credentials?.email,
             password: credentials?.password
           };
-          const response = await fetch('http://192.168.1.76:3000/api/auth/login/', {
+          const baseUrl= process.env.APPLICATION_URL;
+          const response = await fetch(`${baseUrl}/api/auth/login/`, {
             method: 'POST',
             headers:{
               'Content-type': 'application/json'
