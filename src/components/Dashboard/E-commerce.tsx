@@ -51,9 +51,11 @@ const ECommerce: React.FC = ({
       }
      
     }
+    const intervalId = setInterval(fetchData, 5000); // 5 segundos
 
     // Chama fetchData inicialmente e limpa o intervalo quando o componente for desmontado
     fetchData();
+    return () => clearInterval(intervalId);
   }, [getAllDataAccount]);
 
   console.log('teste:',account_data);
