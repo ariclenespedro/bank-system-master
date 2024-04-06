@@ -4,8 +4,8 @@ import SelectGroupOne from '@/components/SelectGroup/SelectGroupOne'
 import React, { useEffect } from 'react'
 
 import PropTypes from 'prop-types';
-import { connect } from "react-redux";
-import { getAllDataAccount } from "@/redux/account/accountActions";
+import { connect, useDispatch, useSelector } from "react-redux";
+import { getAllDataAccount, createPayment } from "@/redux/account/accountActions";
 
 //validate
 import * as Yup from "yup";
@@ -18,9 +18,11 @@ const initialValues = {
   n_reference:'',
 }
 
-const PaymentReferences: React.FC = ({ 
+const PaymentReferences = ({ 
   getAllDataAccount, 
-  account: { account_data }}: any) => {
+  account: { account_data }}) => {
+
+    const dispatch = useDispatch();
     
     
     useEffect(() => {
@@ -38,6 +40,7 @@ const PaymentReferences: React.FC = ({
       validationSchema: PaymentShema,
       onSubmit: async (values) =>{
         console.log(values);
+        dispatch(createPayment(values))
         
         
       }
@@ -153,7 +156,7 @@ PaymentReferences.propTypes = {
   account: PropTypes.object.isRequired,
 };
 
-const mapStateToProps: any = (state: any) =>({
+const mapStateToProps = (state) =>({
   account: state.account || {},
 });
 

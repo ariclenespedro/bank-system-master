@@ -29,3 +29,29 @@ export const getAllDataAccount = createAsyncThunk(
         }
     }
 );
+
+export const createPayment = createAsyncThunk(
+    'payments/create',
+    async (values) => {
+      try {
+        const session = await getSession();
+        const token = session?.token;
+        const client_id = session?.client._id;
+  
+        const config = {
+          baseURL: 'http://192.168.1.76:3000',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        };
+  
+
+        const res = await axios.post('/api/client/payments/references', values, config);
+        return res.data;
+      } catch (error) {
+        console.log('response accountActions errors:',error);
+        return error.message;
+      }
+    }
+  );
