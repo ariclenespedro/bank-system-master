@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { getSession } from "next-auth/react";
 import axios  from "axios";
+import { toast } from "react-toastify";
 
 export const getAllDataAccount = createAsyncThunk(
     "account/getAllDataAccount",
@@ -47,10 +48,11 @@ export const createPayment = createAsyncThunk(
         };
   
 
-        const res = await axios.post('/api/client/payments/references', values, config);
+        const res = await axios.post(`/api/${client_id}/payments/references`, values, config);
         return res.data;
       } catch (error) {
         console.log('response accountActions errors:',error);
+        toast.error(error.response.data.message);
         return error.message;
       }
     }

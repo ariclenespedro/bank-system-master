@@ -40,9 +40,13 @@ const PaymentReferences = ({
       validationSchema: PaymentShema,
       onSubmit: async (values) =>{
         console.log(values);
-        dispatch(createPayment(values))
-        
-        
+        const DataPayment = {
+          entity_id: values.entity,
+          n_reference: values.n_reference,
+          amount: values.amount,
+          description : `Pag Referencia (${values.entity})` 
+        }
+        dispatch(createPayment(DataPayment));
       }
     })
 
@@ -154,10 +158,12 @@ const PaymentReferences = ({
 PaymentReferences.propTypes = {
   getAllDataAccount: PropTypes.func.isRequired,
   account: PropTypes.object.isRequired,
+  payment: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) =>({
   account: state.account || {},
+  payment: state.payment
 });
 
 export default connect(mapStateToProps,{

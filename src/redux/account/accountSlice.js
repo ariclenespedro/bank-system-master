@@ -7,7 +7,7 @@ const initialState = {
     account_data: null,
     paymentReference: null,
     error: null,
-    isSucess:'',
+    payment:'',
   };
 
 const accountSlice = createSlice({
@@ -47,7 +47,7 @@ const accountSlice = createSlice({
           ...state,
           loading:false,
           paymentReference:[],
-          isSucess: payload,
+          payment: payload,
         }
       })
 
