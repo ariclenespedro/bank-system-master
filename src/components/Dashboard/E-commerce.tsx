@@ -25,8 +25,6 @@ const ECommerce: React.FC = ({
         description:'lorem ipsum dolor sit amet, consectetur adip'
       },
     ];
-
-  console.log(account_data);
   
 
   const [DataAccount, setDataAccount] = useState<any | null>({
@@ -58,7 +56,6 @@ const ECommerce: React.FC = ({
     return () => clearInterval(intervalId);
   }, [getAllDataAccount]);
 
-  console.log('teste:',account_data);
   
 
   return (
