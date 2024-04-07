@@ -46,7 +46,18 @@ const PaymentReferences = ({
           amount: values.amount,
           description : `Pag Referencia (${values.entity})` 
         }
-        dispatch(createPayment(DataPayment));
+        const result = await dispatch(createPayment(DataPayment));
+        if (result.error.message === "Rejected") {
+          console.log(result);
+          toast.error(result.payload.response.data.message);
+        }
+        console.log(result);
+        if (result.meta.requestStatus === "fulfilled") {
+          
+          toast.success("teste");
+        }
+          
+        
       }
     })
 
@@ -158,12 +169,10 @@ const PaymentReferences = ({
 PaymentReferences.propTypes = {
   getAllDataAccount: PropTypes.func.isRequired,
   account: PropTypes.object.isRequired,
-  payment: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) =>({
   account: state.account || {},
-  payment: state.payment
 });
 
 export default connect(mapStateToProps,{

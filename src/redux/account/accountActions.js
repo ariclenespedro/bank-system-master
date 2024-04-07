@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 export const getAllDataAccount = createAsyncThunk(
     "account/getAllDataAccount",
     async () => {
-        console.log('iniciando a request');
+        /* console.log('iniciando a request'); */
         try {
             const session = await getSession();
             const token = session?.token;
@@ -33,7 +33,7 @@ export const getAllDataAccount = createAsyncThunk(
 
 export const createPayment = createAsyncThunk(
     'payments/create',
-    async (values) => {
+    async (values, thunkAPI) => {
       try {
         const session = await getSession();
         const token = session?.token;
@@ -49,11 +49,11 @@ export const createPayment = createAsyncThunk(
   
 
         const res = await axios.post(`/api/${client_id}/payments/references`, values, config);
-        return res.data;
+        return thunkAPI.fulfillWithValue(res);
       } catch (error) {
-        console.log('response accountActions errors:',error);
-        toast.error(error.response.data.message);
-        return error.message;
+        console.log('response paymentActions errors:',error);
+        
+        return thunkAPI.rejectWithValue(error);
       }
     }
   );
