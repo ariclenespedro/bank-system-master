@@ -1,11 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { getSession } from "next-auth/react";
 import axios  from "axios";
-import { toast } from "react-toastify";
 
 export const getAllDataAccount = createAsyncThunk(
     "account/getAllDataAccount",
-    async () => {
+    async (thunkAPI) => {
         /* console.log('iniciando a request'); */
         try {
             const session = await getSession();
@@ -14,7 +13,7 @@ export const getAllDataAccount = createAsyncThunk(
 
            // Configuração do cabeçalho com o token
             const config = {
-                baseURL: `http://192.168.1.76:3000`, // URL base da API
+              baseURL : process.env.APPLICATION_URL, // URL base da API
                 headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}` // Adiciona o token ao cabeçalho
@@ -25,7 +24,9 @@ export const getAllDataAccount = createAsyncThunk(
             return res.data;
 
         } catch (error) {
-            console.log('response accountActions errors:',error);
+          console.log('response accountActions errors:',error);
+          return thunkAPI.rejectWithValue(error);
+            
             
         }
     }
@@ -40,7 +41,7 @@ export const createPayment = createAsyncThunk(
         const client_id = session?.client._id;
   
         const config = {
-          baseURL: 'http://192.168.1.76:3000',
+          baseURL: 'http://10.17.20.24:3000',
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
@@ -49,7 +50,7 @@ export const createPayment = createAsyncThunk(
   
 
         const res = await axios.post(`/api/${client_id}/payments/references`, values, config);
-        return thunkAPI.fulfillWithValue(res);
+        return res.data;
       } catch (error) {
         console.log('response paymentActions errors:',error);
         

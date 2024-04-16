@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { getSession, signOut } from "next-auth/react";
+import { getSession , signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 const DropdownUser =  () => {
