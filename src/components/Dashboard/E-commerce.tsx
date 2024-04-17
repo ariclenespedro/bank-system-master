@@ -53,13 +53,7 @@ const ECommerce: React.FC = ({
       }
      
     }
-    //Caso Ocorra algum erro com as requisições no servidor.
-    if(error){
-      toast.error(error.message,{
-        position: "top-right",
-        autoClose: false,
-      });
-    }
+    
 
     const intervalId = setInterval(fetchData, 5000); // 5 segundos
 
@@ -70,6 +64,15 @@ const ECommerce: React.FC = ({
 
   console.log('Erro na execução da requisição com o servidor',error);
 
+  //Caso Ocorra algum erro com as requisições no servidor.
+    if(error){
+      toast.error(error.message,{
+        position: "top-right",
+        autoClose: false,
+        theme: "dark",
+        /* transition: "Bounce", */
+      });
+    }
 
   return (
     <>
