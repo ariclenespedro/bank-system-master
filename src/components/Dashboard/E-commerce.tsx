@@ -14,6 +14,9 @@ const ECommerce: React.FC = ({
   getAllDataAccount, 
   account: { account_data, error, loading }}: any) => {
 
+    console.log(error);
+    
+
     const transitionData: Transiction[] = [
       {
         amount: 40.000,

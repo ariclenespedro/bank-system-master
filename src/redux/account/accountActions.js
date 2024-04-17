@@ -20,7 +20,8 @@ export const getAllDataAccount = createAsyncThunk(
                 }
             };
 
-            const res = await axios.get(`/api/client/${client_id}/account`,config);
+            const res = await axios.get(`/api/client/${client_id}/account`,config)
+            console.log('response axios:',res);
             return res.data;
 
         } catch (error) {

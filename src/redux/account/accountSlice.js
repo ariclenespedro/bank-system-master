@@ -18,7 +18,7 @@ const accountSlice = createSlice({
     builder
       // Pending
       .addCase(getAllDataAccount.pending, (state) => {
-        /* console.log('Pending case...'); */
+        console.log('Pending case Account...');
         return {
           ...state,
           loading: true,
@@ -34,7 +34,7 @@ const accountSlice = createSlice({
 
       //fulfilled
       .addCase(getAllDataAccount.fulfilled, (state, {payload}) =>{
-        /* console.log('payload:',state); */
+        console.log('payload Account:',payload);
         return{
           ...state,
           loading:false,
@@ -42,7 +42,7 @@ const accountSlice = createSlice({
         }
       })
       .addCase(createPayment.fulfilled, (state, {payload}) =>{
-        console.log('payload:',state);
+        console.log('payload:',payload);
         return{
           ...state,
           loading:false,
@@ -52,8 +52,8 @@ const accountSlice = createSlice({
       })
 
       //reject
-      .addCase(getAllDataAccount.rejected, (state, { payload }) => {
-        /* console.log('Rejected:', payload); */
+      .addCase(getAllDataAccount.rejected, (state, {payload}) => {
+        console.log('Rejected Account:', action.error);
         return {
           ...state,
           loading: false,
