@@ -8,11 +8,14 @@ import { getAllDataAccount } from "@/redux/account/accountActions";
 import PropTypes from 'prop-types';
 import TableTwo from "../Tables/TableTwo";
 import { Transiction } from "@/types/Transiction";
-
+import { toast } from "react-toastify";
 
 const ECommerce: React.FC = ({ 
   getAllDataAccount, 
   account: { account_data, error, loading }}: any) => {
+    
+  /* const {error, setError} = useState(); */
+    
     
 
     const transitionData: Transiction[] = [
@@ -46,10 +49,18 @@ const ECommerce: React.FC = ({
         });
 
       } catch (error) {
-        console.log(error);
+        console.log('useeffect:',error);
       }
      
     }
+    //Caso Ocorra algum erro com as requisições no servidor.
+    if(error){
+      toast.error(error.message,{
+        position: "top-right",
+        autoClose: false,
+      });
+    }
+
     const intervalId = setInterval(fetchData, 5000); // 5 segundos
 
     // Chama fetchData inicialmente e limpa o intervalo quando o componente for desmontado
@@ -57,7 +68,8 @@ const ECommerce: React.FC = ({
     return () => clearInterval(intervalId);
   }, [getAllDataAccount]);
 
-  
+  console.log('Erro na execução da requisição com o servidor',error);
+
 
   return (
     <>

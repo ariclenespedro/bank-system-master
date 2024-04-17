@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     env: {
-        APPLICATION_URL: 'http://10.17.20.24:3000',
+        APPLICATION_URL: 'http://localhost:5000',
       },
 };
 

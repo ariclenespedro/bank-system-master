@@ -26,7 +26,7 @@ const DropdownUser =  () => {
     };
     fetchSession();
   }, []); // Executa apenas uma vez durante a montagem do componente
-  /* console.log(session); */
+  console.log(session);
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
 

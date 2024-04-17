@@ -52,15 +52,15 @@ const accountSlice = createSlice({
       })
 
       //reject
-      .addCase(getAllDataAccount.rejected, (state, {payload}) => {
+      .addCase(getAllDataAccount.rejected, (state, action) => {
         console.log('Rejected Account:', action.error);
         return {
           ...state,
           loading: false,
-          error: payload,
+          error: action.error,
         };
       })
-      .addCase(createPayment.rejected, (state, { payload }) => {
+      .addCase(createPayment.rejected, ( state, {payload} ) => {
         console.log('Rejected:', payload);
         return{
           ...state,

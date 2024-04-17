@@ -26,7 +26,8 @@ export const getAllDataAccount = createAsyncThunk(
 
         } catch (error) {
           console.log('response accountActions errors:',error);
-          return thunkAPI.rejectWithValue(error);
+          throw new Error(error.message);
+         /*  return thunkAPI.rejectWithValue(error); */
             
             
         }
@@ -42,7 +43,7 @@ export const createPayment = createAsyncThunk(
         const client_id = session?.client._id;
   
         const config = {
-          baseURL: 'http://10.17.20.24:3000',
+          baseURL: process.env.APPLICATION_URL,
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
