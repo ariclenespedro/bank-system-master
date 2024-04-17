@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { getSession, signOut } from "next-auth/react";
+import { getSession , signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 const DropdownUser =  () => {
@@ -26,7 +26,7 @@ const DropdownUser =  () => {
     };
     fetchSession();
   }, []); // Executa apenas uma vez durante a montagem do componente
-  console.log(session);
+  /* console.log(session); */
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
 

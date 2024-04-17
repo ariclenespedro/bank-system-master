@@ -1,4 +1,8 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+    env: {
+        APPLICATION_URL: 'http://10.17.20.24:3000',
+      },
+};
 
 export default nextConfig;
