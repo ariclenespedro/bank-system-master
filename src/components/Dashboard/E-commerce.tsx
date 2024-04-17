@@ -12,7 +12,7 @@ const ECommerce: React.FC = ({
   getAllDataAccount, 
   account: { account_data, error, loading }}: any) => {
 
-  console.log(account_data);
+  console.log(error);
   
 
   const [DataAccount, setDataAccount] = useState<any | null>({
@@ -28,8 +28,8 @@ const ECommerce: React.FC = ({
         ]);
 
         setDataAccount({
-          balance: account.payload?.balance || "0",
-          currency: account.payload?.currency || "0",
+          balance: account.payload?.balance || "0,00",
+          currency: account.payload?.currency || "Kzs",
         });
 
       } catch (error) {
