@@ -13,7 +13,7 @@ export const getAllDataAccount = createAsyncThunk(
 
            // Configuração do cabeçalho com o token
             const config = {
-              baseURL : process.env.APPLICATION_URL, // URL base da API
+              baseURL : 'http://10.17.20.24:5000', // URL base da API
                 headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}` // Adiciona o token ao cabeçalho
@@ -43,7 +43,7 @@ export const createPayment = createAsyncThunk(
         const client_id = session?.client._id;
   
         const config = {
-          baseURL: process.env.APPLICATION_URL,
+          baseURL: 'http://10.17.20.24:5000',
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,

@@ -68,7 +68,6 @@ const ECommerce: React.FC = ({
     if(error){
       toast.error(error.message,{
         position: "top-right",
-        autoClose: false,
         theme: "dark",
         /* transition: "Bounce", */
       });
