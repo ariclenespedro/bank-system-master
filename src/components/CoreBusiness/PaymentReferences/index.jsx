@@ -20,14 +20,34 @@ const initialValues = {
 
 const PaymentReferences = ({ 
   getAllDataAccount, 
-  account: { account_data }}) => {
+  account: { account_data, error }}) => {
 
     const dispatch = useDispatch();
     
     
     useEffect(() => {
-      getAllDataAccount();
+
+      async function fetchData(){
+        await getAllDataAccount();  
+      }
+      
+
+      const intervalId = setInterval(fetchData, 5000); // 5 segundos
+
+    // Chama fetchData inicialmente e limpa o intervalo quando o componente for desmontado
+    fetchData();
+    return () => clearInterval(intervalId);
     }, [getAllDataAccount]);
+    
+
+    //Caso Ocorra algum erro com as requisições no servidor.
+    if(error){
+      toast.error(error.message,{
+        position: "top-right",
+        theme: "dark",
+        /* transition: "Bounce", */
+      });
+    }
 
     const PaymentShema = Yup.object().shape({
       entity: Yup.string().required("Entidade é um campo obrigatório"),

@@ -4,7 +4,7 @@ import axios  from "axios";
 
 export const getAllDataAccount = createAsyncThunk(
     "account/getAllDataAccount",
-    async (thunkAPI) => {
+    async () => {
         /* console.log('iniciando a request'); */
         try {
             const session = await getSession();
@@ -13,7 +13,7 @@ export const getAllDataAccount = createAsyncThunk(
 
            // Configuração do cabeçalho com o token
             const config = {
-              baseURL : 'http://10.17.20.24:5000', // URL base da API
+              baseURL : process.env.APPLICATION_URL, // URL base da API
                 headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}` // Adiciona o token ao cabeçalho
@@ -27,23 +27,27 @@ export const getAllDataAccount = createAsyncThunk(
         } catch (error) {
           console.log('response accountActions errors:',error);
           throw new Error(error.message);
-         /*  return thunkAPI.rejectWithValue(error); */
+         
             
             
         }
     }
 );
 
+// Método para criar um pagamento por referencia
+
 export const createPayment = createAsyncThunk(
-    'payments/create',
+    'payments/createPayment',
     async (values, thunkAPI) => {
       try {
         const session = await getSession();
         const token = session?.token;
         const client_id = session?.client._id;
+
+        /* console.log('session:',session); */
   
         const config = {
-          baseURL: 'http://10.17.20.24:5000',
+          baseURL: process.env.APPLICATION_URL,
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
@@ -57,6 +61,37 @@ export const createPayment = createAsyncThunk(
         console.log('response paymentActions errors:',error);
         
         return thunkAPI.rejectWithValue(error);
+      }
+    }
+  );
+
+
+  /* 
+  Action para pegar todas as transações bancárias(movimentos) de um cliente.
+   */
+  export const getAllTransictionClient = createAsyncThunk(
+    'account/getAllTransictionClient',
+    async () => {
+      try {
+        const session = await getSession();
+        const token = session?.token;
+        const client_id = session?.client._id;
+  
+        const config = {
+          baseURL: process.env.APPLICATION_URL,
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        };
+  
+
+        const res = await axios.get(`/api/${client_id}/transictions`, config);
+        return res.data;
+      } catch (error) {
+        console.log('response getTransictions errors:',error);
+        
+        throw new Error(error.message);
       }
     }
   );

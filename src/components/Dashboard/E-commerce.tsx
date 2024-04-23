@@ -4,17 +4,17 @@ import CardDataStats from "../CardDataStats";
 import { useEffect, useRef, useState } from "react";
 
 import { connect } from "react-redux";
-import { getAllDataAccount } from "@/redux/account/accountActions";
+import { getAllDataAccount, getAllTransictionClient } from "@/redux/account/accountActions";
 import PropTypes from 'prop-types';
 import TableTwo from "../Tables/TableTwo";
 import { Transiction } from "@/types/Transiction";
 import { toast } from "react-toastify";
 
 const ECommerce: React.FC = ({ 
-  getAllDataAccount, 
-  account: { account_data, error, loading }}: any) => {
-    
-  /* const {error, setError} = useState(); */
+  getAllDataAccount,getAllTransictionClient, 
+  account: { transictions ,account_data, error, loading }}: any) => {
+
+    console.log(transictions);
     
     
 
@@ -36,31 +36,38 @@ const ECommerce: React.FC = ({
     currency: loading === true ? "0" : account_data?.currency,
   });
 
+  const [DataTransictions, setDataTransictions] = useState<any | null>({
+    transictions: loading === true ? [] : transictions
+  })
+
+
+
   useEffect(() => {
     async function fetchData() {
       try {
-        const [account] = await Promise.all([
-          getAllDataAccount(),
+        const [account, transiction] = await Promise.all([
+          getAllDataAccount(),getAllTransictionClient()
         ]);
 
         setDataAccount({
-          balance: account.payload?.balance || "0,00",
-          currency: account.payload?.currency || "Kzs",
+          balance: account?.payload.balance || "0,00",
+          currency: account?.payload.currency || "Kzs",
+        });
+
+        setDataTransictions({
+          transictions: transiction.payload || []
         });
 
       } catch (error) {
         console.log('useeffect:',error);
       }
-     
     }
-    
-
     const intervalId = setInterval(fetchData, 5000); // 5 segundos
 
     // Chama fetchData inicialmente e limpa o intervalo quando o componente for desmontado
     fetchData();
     return () => clearInterval(intervalId);
-  }, [getAllDataAccount]);
+  }, [getAllDataAccount, getAllTransictionClient]);
 
   console.log('Erro na execução da requisição com o servidor',error);
 
@@ -102,7 +109,7 @@ const ECommerce: React.FC = ({
             />
           </svg>
         </CardDataStats> */}
-        <TableTwo transitionData={transitionData}/> 
+        <TableTwo transitionData={DataTransictions}/> 
       </div>
     </>
   );
@@ -111,6 +118,7 @@ const ECommerce: React.FC = ({
 
 ECommerce.propTypes = {
   getAllDataAccount: PropTypes.func.isRequired,
+  getAllTransictionClient: PropTypes.func.isRequired,
   account: PropTypes.object.isRequired,
 };
 
@@ -120,5 +128,7 @@ const mapStateToProps = (state: any) => ({
 
 export default connect(mapStateToProps, {
   getAllDataAccount,
+  getAllTransictionClient,
+
 })(ECommerce);
 
