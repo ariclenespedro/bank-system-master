@@ -15,6 +15,9 @@ const DropdownUser =  () => {
       redirect: false,
     });
 
+    //limpa todo armazenamento local do navegador!
+    localStorage.clear();
+
     router.replace("/");
   }
   

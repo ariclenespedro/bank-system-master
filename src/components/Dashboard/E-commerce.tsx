@@ -49,13 +49,30 @@ const ECommerce: React.FC = ({
           getAllDataAccount(),getAllTransictionClient()
         ]);
 
+        let DataLocalAccount = {
+          balance: loading === true ? "0" : account_data?.balance,
+          currency: loading === true ? "0" : account_data?.currency,
+        };
+
+        let obj_DataLocalAccount = JSON.stringify(DataLocalAccount);
+        localStorage.setItem('dataLocalAccount', obj_DataLocalAccount);
+        const get_obj_DataLocalAccount = JSON.stringify(localStorage.getItem('dataLocalAccount'));
+
         setDataAccount({
-          balance: account?.payload.balance || "0,00",
-          currency: account?.payload.currency || "Kzs",
+          balance: account?.payload.balance ? account?.payload.balance : get_obj_DataLocalAccount,
+          currency: account?.payload.currency ? account?.payload.currency : get_obj_DataLocalAccount,
         });
 
+        let DataLocalTransictions = {
+          transictions: loading === true ? [] : transictions
+        };
+
+        let obj_DataLocalTransictions = JSON.stringify(DataLocalTransictions);
+        localStorage.setItem('dataLocalTransictios',obj_DataLocalTransictions);
+        const get_obj_DataLocalTransictions = JSON.stringify(localStorage.getItem('dataLocalTransictios'));
+
         setDataTransictions({
-          transictions: transiction.payload || []
+          transictions: transiction.payload ?  transiction.payload : get_obj_DataLocalTransictions 
         });
 
       } catch (error) {
