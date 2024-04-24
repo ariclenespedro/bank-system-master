@@ -1,7 +1,7 @@
 export type Transiction = {
     amount: number;
-    balanceAfter: number;
-    createdAt: Date;
+    balance_after: number;
+    createdAt: string;
     n_reference: number;
     client: {
         fullname: string;

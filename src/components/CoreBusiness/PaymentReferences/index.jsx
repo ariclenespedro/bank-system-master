@@ -41,8 +41,8 @@ const PaymentReferences = ({
     
 
     //Caso Ocorra algum erro com as requisições no servidor.
-    if(error){
-      toast.error(error.message,{
+    if( (error || null) && (account_data === null || undefined ) ){
+      toast.error((error.message === "Network Error" ? "Ups! Parece que você está sem internet" : error.message),{
         position: "top-center",
         theme: "dark",
         /* transition: "Bounce", */

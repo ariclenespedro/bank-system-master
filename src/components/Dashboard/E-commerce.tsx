@@ -18,7 +18,7 @@ const ECommerce: React.FC = ({
     
     
 
-    const transitionData: Transiction[] = [
+    /* const transitionData: Transiction[] = [
       {
         amount: 40.000,
         balanceAfter: 4000.00,
@@ -28,12 +28,12 @@ const ECommerce: React.FC = ({
         entity_id: 3344444,
         description:'lorem ipsum dolor sit amet, consectetur adip'
       },
-    ];
+    ]; */
   
 
   const [DataAccount, setDataAccount] = useState<any | null>({
-    balance: loading === true ? "0" : account_data?.balance,
-    currency: loading === true ? "0" : account_data?.currency,
+    balance: loading === true ? "0" : account_data?.balance ? account_data?.balance : "0",
+    currency: loading === true ? "KZS" : account_data?.currency ? account_data?.currency : "KZS",
   });
 
   const [DataTransictions, setDataTransictions] = useState<any | null>({
@@ -50,8 +50,8 @@ const ECommerce: React.FC = ({
         ]);
 
         let DataLocalAccount = {
-          balance: loading === true ? "0" : account_data?.balance,
-          currency: loading === true ? "0" : account_data?.currency,
+          balance: loading === true ? "0" : account_data?.balance ? account_data?.balance : "0",
+          currency: loading === true ? "KZS" : account_data?.currency ? account_data?.currency : "KZS",
         };
 
         let obj_DataLocalAccount = JSON.stringify(DataLocalAccount);
@@ -89,8 +89,8 @@ const ECommerce: React.FC = ({
   console.log('Erro na execução da requisição com o servidor',error);
 
   //Caso Ocorra algum erro com as requisições no servidor.
-    if(error){
-      toast.error(error.message,{
+    if(error && (account_data === null || transictions === null) ){
+      toast.error((error.message === "Network Error" ? "Ups! Parece que você está sem internet" : error.message) ,{
         position: "top-center",
         theme: "dark",
         /* transition: "Bounce", */

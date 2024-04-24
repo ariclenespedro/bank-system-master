@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Transiction } from "@/types/Transiction";
 import React from "react";
+import { format } from 'date-fns'; //lidar com o formato da data
 
 interface TableDataStatsProps {
   transitionData: Array<Transiction>;
@@ -21,17 +22,17 @@ const TableTwo: React.FC<TableDataStatsProps> = ({transitionData}) => {
       </div>
 
       <div className="grid grid-cols-6 border-t border-stroke px-4 py-4.5 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5">
-        <div className="col-span-3 flex items-center">
+        <div className="col-span-2  flex items-center">
           <p className="font-medium">DESCRITIVO</p>
         </div>
         <div className="col-span-2 hidden items-center sm:flex">
           <p className="font-medium">MONTANTE</p>
         </div>
-        <div className="col-span-1 flex items-center">
+        <div className="col-span-2 flex items-center">
           <p className="font-medium">SALDO APÓS MOVIMENTO</p>
         </div>
-        <div className="col-span-1 flex items-center">
-          <p className="font-medium">DATA VALOR</p>
+        <div className="col-span-2 flex items-center">
+          <p className="font-medium">DATA TRANSAÇÃO</p>
         </div>
         <div className="col-span-1 flex items-center">
           
@@ -43,7 +44,7 @@ const TableTwo: React.FC<TableDataStatsProps> = ({transitionData}) => {
           className="grid grid-cols-6 border-t border-stroke px-4 py-4.5 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5"
           key={key}
         >
-          <div className="col-span-3 flex items-center">
+          <div className="col-span-2 flex items-center">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
               <div className="h-12.5 w-15 rounded-md">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
@@ -61,15 +62,15 @@ const TableTwo: React.FC<TableDataStatsProps> = ({transitionData}) => {
             Kzs {transiction.amount}
             </p>
           </div>
-          <div className="col-span-1 flex items-center">
+          <div className="col-span-2 flex items-center">
             <p className="text-sm text-black dark:text-white">
-              Kzs {transiction.n_reference}
+              Kzs {transiction.balance_after}
             </p>
           </div>
           <div className="col-span-1 flex items-center">
-            <p className="text-sm text-black dark:text-white">{ transiction.createdAt.toString()}</p>
+            <p className="text-sm text-black dark:text-white">{format(new Date(transiction.createdAt), 'dd/MM/yyyy HH:mm:ss')}</p>
           </div>
-          <div className="col-span-1 flex items-center">
+          <div className="col-span-1 flex items-center pl-20">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 18.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z" />
             </svg>
