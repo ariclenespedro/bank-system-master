@@ -43,7 +43,7 @@ const PaymentReferences = ({
     //Caso Ocorra algum erro com as requisições no servidor.
     if(error){
       toast.error(error.message,{
-        position: "top-right",
+        position: "top-center",
         theme: "dark",
         /* transition: "Bounce", */
       });

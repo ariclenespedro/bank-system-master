@@ -14,7 +14,7 @@ const ECommerce: React.FC = ({
   getAllDataAccount,getAllTransictionClient, 
   account: { transictions ,account_data, error, loading }}: any) => {
 
-    console.log(transictions);
+    /* console.log(transictions); */
     
     
 
@@ -37,7 +37,7 @@ const ECommerce: React.FC = ({
   });
 
   const [DataTransictions, setDataTransictions] = useState<any | null>({
-    transictions: loading === true ? [] : transictions
+    transictions: loading === true ? [] : transictions?.data
   })
 
 
@@ -64,7 +64,7 @@ const ECommerce: React.FC = ({
         });
 
         let DataLocalTransictions = {
-          transictions: loading === true ? [] : transictions
+          transictions: loading === true ? [] : transictions?.data
         };
 
         let obj_DataLocalTransictions = JSON.stringify(DataLocalTransictions);
@@ -72,7 +72,7 @@ const ECommerce: React.FC = ({
         const get_obj_DataLocalTransictions = JSON.stringify(localStorage.getItem('dataLocalTransictios'));
 
         setDataTransictions({
-          transictions: transiction.payload ?  transiction.payload : get_obj_DataLocalTransictions 
+          transictions: transiction.payload?.data ?  transiction.payload?.data : get_obj_DataLocalTransictions 
         });
 
       } catch (error) {
@@ -91,11 +91,13 @@ const ECommerce: React.FC = ({
   //Caso Ocorra algum erro com as requisições no servidor.
     if(error){
       toast.error(error.message,{
-        position: "top-right",
+        position: "top-center",
         theme: "dark",
         /* transition: "Bounce", */
       });
     }
+
+    console.log(DataTransictions.transictions);
 
   return (
     <>
@@ -126,7 +128,7 @@ const ECommerce: React.FC = ({
             />
           </svg>
         </CardDataStats> */}
-        <TableTwo transitionData={DataTransictions}/> 
+        <TableTwo transitionData={DataTransictions.transictions}/> 
       </div>
     </>
   );

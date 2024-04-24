@@ -8,6 +8,10 @@ interface TableDataStatsProps {
 
 
 const TableTwo: React.FC<TableDataStatsProps> = ({transitionData}) => {
+
+  const data = transitionData || [];
+  console.log(transitionData);
+
   return (
     <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
       <div className="px-4 py-6 md:px-6 xl:px-7.5">
@@ -34,7 +38,7 @@ const TableTwo: React.FC<TableDataStatsProps> = ({transitionData}) => {
         </div>
       </div>
 
-      {/* {transitionData?.map((transiction, key) => (
+      {data.map((transiction, key) => (
         <div
           className="grid grid-cols-6 border-t border-stroke px-4 py-4.5 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5"
           key={key}
@@ -59,11 +63,11 @@ const TableTwo: React.FC<TableDataStatsProps> = ({transitionData}) => {
           </div>
           <div className="col-span-1 flex items-center">
             <p className="text-sm text-black dark:text-white">
-              Kzs {transiction.balanceAfter}
+              Kzs {transiction.n_reference}
             </p>
           </div>
           <div className="col-span-1 flex items-center">
-            <p className="text-sm text-black dark:text-white">{ transiction.createdAt.toDateString()}</p>
+            <p className="text-sm text-black dark:text-white">{ transiction.createdAt.toString()}</p>
           </div>
           <div className="col-span-1 flex items-center">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -71,7 +75,7 @@ const TableTwo: React.FC<TableDataStatsProps> = ({transitionData}) => {
             </svg>
           </div>
         </div>
-      ))} */}
+      ))}
     </div>
   );
 };
