@@ -1,5 +1,5 @@
 'use client'
-import React from "react";
+import React, {useState} from "react";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -9,6 +9,8 @@ import { useFormik } from "formik";
 import { signIn } from "next-auth/react";
 import { useRouter } from 'next/navigation'
 import { toast } from "react-toastify";
+
+import Loading from "../ui/Loading/page";
 
 
 import { connect } from "react-redux";
@@ -24,6 +26,9 @@ const initialValues = {
 
 const SignIn: React.FC = ({ getAllDataAccount}: any) => {
 
+  //controla o loading ao clicar no botão do login
+  const [addLoading, setAddLoading] = useState(false);
+
   const router = useRouter();
 
   // Configuração de validação com Yup
@@ -36,6 +41,7 @@ const SignIn: React.FC = ({ getAllDataAccount}: any) => {
     initialValues: initialValues,
     validationSchema: LoginSchema,
     onSubmit: async (values) => {
+      setAddLoading(true);
       console.log(values);
       const result = await signIn("credentials", {
         email: values.email,
@@ -46,6 +52,7 @@ const SignIn: React.FC = ({ getAllDataAccount}: any) => {
       if (result?.error) {
         toast.warning("Erro ao autenticar. Verifique suas credenciais.");
         console.error("Erro ao autenticar:", result.error); 
+        setAddLoading(false); // desactivar o loading
         return;
       } else {
         // Redireciona para a página de dashboard se a autenticação for bem-sucedida
@@ -303,12 +310,15 @@ const SignIn: React.FC = ({ getAllDataAccount}: any) => {
                 </div>
 
                 <div className="mb-5">
-                  <button
+                {addLoading ? <Loading /> : <button
                     type="submit"
+                    disabled = {addLoading ? addLoading : false }
                     className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
                   >
                     ENTRAR
                   </button>
+                }
+                  
                  
                   
                 </div>

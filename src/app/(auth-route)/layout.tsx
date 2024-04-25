@@ -9,7 +9,7 @@ import { nextAuthOptions } from "../api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
-    title: "Login",
+    title: "Bank Account",
     description: "login",
   };
 
