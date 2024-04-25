@@ -8,4 +8,5 @@ export type Transiction = {
     };
     entity_id: number;
     description: string;
+    _id: string;
   };

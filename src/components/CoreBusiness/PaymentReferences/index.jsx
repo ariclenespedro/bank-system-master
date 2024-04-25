@@ -1,7 +1,7 @@
 "use client";
 import Breadcrumb from '@/components/Breadcrumbs/Breadcrumb'
 import SelectGroupOne from '@/components/SelectGroup/SelectGroupOne'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import PropTypes from 'prop-types';
 import { connect, useDispatch, useSelector } from "react-redux";
@@ -11,6 +11,8 @@ import { getAllDataAccount, createPayment } from "@/redux/account/accountActions
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
+import Loading from '@/app/ui/Loading/page';
+import { redirect } from 'next/navigation';
 
 const initialValues = {
   entity: '',
@@ -21,6 +23,9 @@ const initialValues = {
 const PaymentReferences = ({ 
   getAllDataAccount, 
   account: { account_data, error }}) => {
+
+     //controla o loading ao clicar no botão.
+  const [addLoading, setAddLoading] = useState(false);
 
     const dispatch = useDispatch();
     
@@ -59,6 +64,7 @@ const PaymentReferences = ({
       initialValues: initialValues,
       validationSchema: PaymentShema,
       onSubmit: async (values) =>{
+        setAddLoading(true);
         console.log(values);
         const DataPayment = {
           entity_id: values.entity,
@@ -67,14 +73,14 @@ const PaymentReferences = ({
           description : `Pag Referencia (${values.entity})` 
         }
         const result = await dispatch(createPayment(DataPayment));
-        if (result.error.message === "Rejected") {
+        if (result.meta.requestStatus == "fulfilled") {
+          toast.success("Pagamento efectuado com sucesso!");
+          
+          
+        } else if (result.error.message === "Rejected") {
           console.log(result);
           toast.error(result.payload.response.data.message);
-        }
-        console.log(result);
-        if (result.meta.requestStatus === "fulfilled") {
-          
-          toast.success("teste");
+          setAddLoading(false);
         }
           
         
@@ -173,10 +179,12 @@ const PaymentReferences = ({
                   )}
                 </div>
 
-
-                <button type='submit' className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90">
+                {addLoading ? <Loading /> :
+                  <button type='submit' className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90">
                   Confirmar 
                 </button>
+                }
+                
               </div>
             </form>
           </div>

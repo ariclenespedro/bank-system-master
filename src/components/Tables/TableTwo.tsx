@@ -3,6 +3,8 @@ import { Transiction } from "@/types/Transiction";
 import React from "react";
 import { format } from 'date-fns'; //lidar com o formato da data
 
+import Link from 'next/link'
+
 interface TableDataStatsProps {
   transitionData: Array<Transiction>;
 }
@@ -25,7 +27,7 @@ const TableTwo: React.FC<TableDataStatsProps> = ({transitionData}) => {
         <div className="col-span-2  flex items-center">
           <p className="font-medium">DESCRITIVO</p>
         </div>
-        <div className="col-span-2 hidden items-center sm:flex">
+        <div className="col-span-1 hidden items-center sm:flex">
           <p className="font-medium">MONTANTE</p>
         </div>
         <div className="col-span-2 flex items-center">
@@ -35,7 +37,7 @@ const TableTwo: React.FC<TableDataStatsProps> = ({transitionData}) => {
           <p className="font-medium">DATA TRANSAÇÃO</p>
         </div>
         <div className="col-span-1 flex items-center">
-          
+          ACÇÕES
         </div>
       </div>
 
@@ -57,7 +59,7 @@ const TableTwo: React.FC<TableDataStatsProps> = ({transitionData}) => {
               </p>
             </div>
           </div>
-          <div className="col-span-2 hidden items-center sm:flex">
+          <div className="col-span-1 hidden items-center sm:flex">
             <p className="text-sm text-black dark:text-white">
             Kzs {transiction.amount}
             </p>
@@ -67,13 +69,19 @@ const TableTwo: React.FC<TableDataStatsProps> = ({transitionData}) => {
               Kzs {transiction.balance_after}
             </p>
           </div>
-          <div className="col-span-1 flex items-center">
+          <div className="col-span-2 flex items-center">
             <p className="text-sm text-black dark:text-white">{format(new Date(transiction.createdAt), 'dd/MM/yyyy HH:mm:ss')}</p>
           </div>
-          <div className="col-span-1 flex items-center pl-20">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 18.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z" />
-            </svg>
+          <div className="col-span-1 flex items-center ">
+            <Link href={{
+              pathname : `/transictions/[id_transictions]`,
+              query:{id_transictions:transiction._id}
+            }}>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+              </svg>
+            </Link>
           </div>
         </div>
       ))}
