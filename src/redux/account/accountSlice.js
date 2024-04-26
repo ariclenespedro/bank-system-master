@@ -1,5 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import {getAllDataAccount, createPayment, getAllTransictionClient  } from './accountActions';
+import 
+  {getAllDataAccount, 
+    createPayment, 
+  getAllTransictionClient , 
+  getTransictionClient } from './accountActions';
 
 
 const initialState = {
@@ -7,6 +11,7 @@ const initialState = {
     account_data: null,
     paymentReference: null,
     transictions:null,
+    transiction_data: null,
     error: null,
     payment:'',
   };
@@ -34,6 +39,13 @@ const accountSlice = createSlice({
       })
       .addCase(getAllTransictionClient.pending, (state) => {
         console.log('Pending case allTrasiction...');
+        return{
+          ...state,
+          loading: true,
+        }
+      })
+      .addCase(getTransictionClient.pending, (state) => {
+        console.log('Pending case Trasiction...');
         return{
           ...state,
           loading: true,
@@ -67,9 +79,18 @@ const accountSlice = createSlice({
         }
       })
 
+      .addCase(getTransictionClient.fulfilled, (state, {payload}) =>{
+        console.log('payload specific transiction:',payload);
+        return{
+          ...state,
+          loading:false,
+          transiction_data: payload,
+        }
+      })
+
       //reject
       .addCase(getAllDataAccount.rejected, (state, action) => {
-        console.log('Rejected Account:', action.error);
+        /* console.log('Rejected Account:', action.error); */
         return {
           ...state,
           loading: false,
@@ -86,7 +107,16 @@ const accountSlice = createSlice({
       })
 
       .addCase(getAllTransictionClient.rejected, ( state, {payload} ) => {
-        console.log('Rejected transictions:', payload);
+        /* console.log('Rejected transictions:', payload); */
+        return{
+          ...state,
+          loading:false,
+          error: payload,
+        }
+      })
+
+      .addCase(getTransictionClient.rejected, ( state, {payload} ) => {
+        console.log('Rejected specific transictions:', payload);
         return{
           ...state,
           loading:false,
