@@ -16,6 +16,8 @@ interface props {
 
 const transictionDetalis : React.FC = ({ getTransictionClient, params, account: { transiction_data,loading, error } }: any) =>  {
 
+
+
   useEffect(() => {
 
     async function fetchData(){
@@ -23,12 +25,11 @@ const transictionDetalis : React.FC = ({ getTransictionClient, params, account: 
     }
     
 
-    const intervalId = setInterval(fetchData, 5000); // 5 segundos
-
-  // Chama fetchData inicialmente e limpa o intervalo quando o componente for desmontado
+    
   fetchData();
-  return () => clearInterval(intervalId);
   }, [getTransictionClient]);
+
+  console.log(transiction_data)
 
   return (
     <>

@@ -103,7 +103,6 @@ export const createPayment = createAsyncThunk(
       try {
         const session = await getSession();
         const token = session?.token;
-        const client_id = session?.client._id;
   
         const config = {
           baseURL: process.env.APPLICATION_URL,
@@ -114,7 +113,7 @@ export const createPayment = createAsyncThunk(
         };
   
 
-        const res = await axios.get(`/api/${client_id}/transiction/${transiction_id}`, config);
+        const res = await axios.get(`/api/transiction/${transiction_id}`, config);
         return res.data;
       } catch (error) {
         console.log('response Transiction errors:',error);
