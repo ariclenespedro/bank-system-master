@@ -68,7 +68,7 @@ const TransictionDetalis: React.FC<props> = ({
         <div className="mx-auto max-w-242.5">
           <Breadcrumb pageName="Detalhes do Movimento" />
 
-          <div className="border-gray-200 dark:bg-gray-800 dark:border-gray-700 w-full  rounded-lg border bg-white p-4 shadow sm:p-8">
+          <div className="border-gray-200 dark:bg-gray-800 dark:border-gray-700 w-full  rounded-lg border bg-white p-4 shadow sm:p-8 dark:border-strokedark dark:bg-boxdark">
             <div className="mb-4 flex items-center justify-between">
               <h5 className="text-gray-900 text-xl font-bold leading-none dark:text-white">
                 {transiction_data?.data.description}
