@@ -236,6 +236,7 @@ const SignIn: React.FC = ({ getAllDataAccount}: any) => {
                       name="email"
                       id="email"
                       placeholder="Email"
+                      disabled={addLoading ? addLoading : false}
                       onChange={loginForm.handleChange}
                       value={loginForm.values.email}
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
@@ -274,6 +275,7 @@ const SignIn: React.FC = ({ getAllDataAccount}: any) => {
                       type="password"
                       name="password"
                       id="password"
+                      disabled={addLoading ? addLoading : false}
                       placeholder="Digite a palavra-passe"
                       onChange={loginForm.handleChange}
                       value={loginForm.values.password}

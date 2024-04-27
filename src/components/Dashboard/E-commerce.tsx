@@ -13,22 +13,6 @@ import { toast } from "react-toastify";
 const ECommerce: React.FC = ({ 
   getAllDataAccount,getAllTransictionClient, 
   account: { transictions ,account_data, error, loading }}: any) => {
-
-    /* console.log(transictions); */
-    
-    
-
-    /* const transitionData: Transiction[] = [
-      {
-        amount: 40.000,
-        balanceAfter: 4000.00,
-        createdAt: new Date('2024-03-17T09:30:00'),
-        client: {fullname: 'Ariclenes'},
-        n_reference: 33444,
-        entity_id: 3344444,
-        description:'lorem ipsum dolor sit amet, consectetur adip'
-      },
-    ]; */
   
 
   const [DataAccount, setDataAccount] = useState<any | null>({
