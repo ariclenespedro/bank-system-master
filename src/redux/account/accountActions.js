@@ -57,6 +57,7 @@ export const createPayment = createAsyncThunk(
 
         const res = await axios.post(`/api/${client_id}/payments/references`, values, config);
         return res.data;
+        console.log(res.data);
       } catch (error) {
         console.log('response paymentActions errors:',error);
         

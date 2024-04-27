@@ -15,7 +15,10 @@ const TableTwo: React.FC<TableDataStatsProps> = ({transitionData}) => {
 
   const router= useRouter();
   const data = transitionData || [];
-  console.log(transitionData);
+  console.log(data);
+
+  // para listar por ordem de entrada
+  const dataInvertida = [...transitionData].reverse();
 
   return (
     <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
@@ -43,7 +46,7 @@ const TableTwo: React.FC<TableDataStatsProps> = ({transitionData}) => {
         </div>
       </div>
 
-      {data.map((transiction, key) => (
+      {dataInvertida.map((transiction, key) => (
         <div
           className="grid grid-cols-6 border-t border-stroke px-4 py-4.5 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5"
           key={key}
@@ -72,7 +75,7 @@ const TableTwo: React.FC<TableDataStatsProps> = ({transitionData}) => {
             </p>
           </div>
           <div className="col-span-2 flex items-center">
-            <p className="text-sm text-black dark:text-white">{format(new Date(transiction.createdAt), 'dd/MM/yyyy HH:mm:ss')}</p>
+            <p className="text-sm text-black dark:text-white">{transiction? format(new Date(transiction?.createdAt), 'dd/MM/yyyy HH:mm:ss'): ''}</p>
           </div>
           <div className="col-span-1 flex items-center " onClick={()=> router.push(`/transictions/${transiction._id}`)}>
             <Link href={`#`}>

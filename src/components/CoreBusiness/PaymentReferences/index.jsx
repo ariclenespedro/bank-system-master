@@ -12,7 +12,7 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import Loading from '@/app/ui/Loading/page';
-import { redirect } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
 
 const initialValues = {
   entity: '',
@@ -28,6 +28,8 @@ const PaymentReferences = ({
   const [addLoading, setAddLoading] = useState(false);
 
     const dispatch = useDispatch();
+
+    const router = useRouter();
     
     
     useEffect(() => {
@@ -36,12 +38,7 @@ const PaymentReferences = ({
         await getAllDataAccount();  
       }
       
-
-      const intervalId = setInterval(fetchData, 5000); // 5 segundos
-
-    // Chama fetchData inicialmente e limpa o intervalo quando o componente for desmontado
     fetchData();
-    return () => clearInterval(intervalId);
     }, [getAllDataAccount]);
     
 
@@ -73,14 +70,18 @@ const PaymentReferences = ({
           description : `Pag Referencia (${values.entity})` 
         }
         const result = await dispatch(createPayment(DataPayment));
+        console.log(result);
         if (result.meta.requestStatus == "fulfilled") {
-          toast.success("Pagamento efectuado com sucesso!");
-          
-          
-        } else if (result.error.message === "Rejected") {
-          console.log(result);
-          toast.error(result.payload.response.data.message);
           setAddLoading(false);
+          toast.success(result.payload.message, {autoClose:false});
+          router.push(`/payment/reference/${result.payload.data._id}`);
+          console.log(result.payload.data.message);
+        } else if (result.error.message === "Rejected") {
+          setAddLoading(false);
+          toast.error(result.payload.response.data.message?
+            result.payload.response.data.message: 
+            'Falha ao efectuar o pagamento. Tente mais tarde!');
+          
         }
           
         

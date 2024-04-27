@@ -74,7 +74,7 @@ const ECommerce: React.FC = ({
 
   //Caso Ocorra algum erro com as requisições no servidor.
     if(error && (account_data === null || transictions === null) ){
-      toast.error((error.message === "Network Error" ? "Ups! Parece que você está sem internet" : error.message) ,{
+      toast.error((error.message === "Network Error" ? "Ups! Parece que você está desconectado!" : error.message) ,{
         position: "top-center",
         theme: "dark",
         /* transition: "Bounce", */
