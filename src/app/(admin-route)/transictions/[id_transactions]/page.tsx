@@ -11,6 +11,7 @@ import { connect } from "react-redux";
 
 import { format } from 'date-fns'; //lidar com o formato da data
 import { toast } from "react-toastify";
+import Link from "next/link";
 
 interface props {
   params: any;
@@ -173,6 +174,15 @@ const TransictionDetalis: React.FC<props> = ({
               </ul>
             </div>
           </div>
+          <div className="flex justify-end mt-4">
+          <Link
+              href="/dashboard"
+              className="inline-flex items-center justify-center rounded-md bg-primary px-10 py-4 text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-10"
+            >
+              Voltar
+            </Link>
+          </div>
+          
         </div>
       </DefaultLayout>
     </>
