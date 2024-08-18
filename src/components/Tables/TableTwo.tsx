@@ -18,7 +18,7 @@ const TableTwo: React.FC<TableDataStatsProps> = ({transitionData}) => {
   console.log(data);
 
   // para listar por ordem de entrada
-  const dataInvertida = [...transitionData].reverse();
+  const dataInvertida = transitionData ? [...transitionData].reverse() : [];
 
   return (
     <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
