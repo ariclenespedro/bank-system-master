@@ -47,15 +47,17 @@ export const createPayment = createAsyncThunk(
         /* console.log('session:',session); */
   
         const config = {
-          baseURL: process.env.APPLICATION_URL,
+          /* baseURL: process.env.APPLICATION_URL, */
           headers: {
+            'accept': 'application/vnd.proxypay.v2+json',
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
+            Authorization: `Token hp20ej7dshjgeks78att868goecpj393`,
           },
         };
   
 
-        const res = await axios.post(`/api/${client_id}/payments/references`, values, config);
+        /* const res = await axios.post(`/api/${client_id}/payments/references`, values, config);  API de teste*/
+        const res = await axios.post(`https://api.sandbox.proxypay.co.ao/payments`, values, config); 
         return res.data;
         console.log(res.data);
       } catch (error) {

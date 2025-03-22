@@ -64,10 +64,11 @@ const PaymentReferences = ({
         setAddLoading(true);
         console.log(values);
         const DataPayment = {
-          entity_id: values.entity,
-          n_reference: values.n_reference,
-          amount: values.amount,
-          description : `Pag Referencia (${values.entity})` 
+          /* entity_id: values.entity, */
+          /* n_reference: values.n_reference, */
+          reference_id: values.n_reference,
+          amount: `${values.amount}`,
+          /* description : `Pag Referencia (${values.entity})` */ 
         }
         const result = await dispatch(createPayment(DataPayment));
         console.log(result);
@@ -76,12 +77,9 @@ const PaymentReferences = ({
           toast.success(result.payload.message, {autoClose:false});
           router.push(`/payment/reference/${result.payload.data._id}`);
           console.log(result.payload.data.message);
-        } else if (result.error.message === "Rejected") {
-          setAddLoading(false);
-          toast.error(result.payload.response.data.message?
-            result.payload.response.data.message: 
-            'Falha ao efectuar o pagamento. Tente mais tarde!');
-          
+        } else {
+          const errorMessage = result.payload?.message || 'Falha ao efectuar o pagamento. Tente mais tarde!';
+          toast.error(errorMessage);
         }
           
         
@@ -128,7 +126,7 @@ const PaymentReferences = ({
                   <input
                     id="n_reference"
                     name="n_reference"
-                    type="text"
+                    type="number"
                     onChange={PaymentReferenceForm.handleChange}
                     value={PaymentReferenceForm.values.n_reference}
                     placeholder="Digite o número da referência"
